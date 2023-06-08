@@ -12,6 +12,14 @@ You can use 'verify_librairies.py' to see which imports are missing.
 
 The file 'run_parameters.py' contains variables that you should change to match your needs and your installation of pytesseract.
 
+Third-Party librairies : 
+
+- numpy
+- matplotlib.pyplot
+- cv2
+- PIL
+- pytesseract
+
 # Work Flow
 
 ```mermaid
