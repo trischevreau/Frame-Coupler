@@ -27,6 +27,7 @@ if __name__=="__main__":
     print()
     print("### running parameters (can be changed in the run_parameters.py file) :")
     print(f"### user info level = {info_level}/3 ; save = {save}")
+    print(f"### Tesseract EXE filepath {pytesseract_exe_file_path}")
     print()
 
     # choose the videos
