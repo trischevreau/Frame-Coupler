@@ -73,7 +73,7 @@ def cleanup_values(mask_):
     return length_before - len(clock_times)
 
 
-def step3(video_path_, info_level=3, interval_to_analyze_=(0, None), residual_thresholds_=(1000, 500, 100)):
+def step3(video_path_, info_level=3, interval_to_analyze_=(0, None), residual_thresholds_=(2000, 500, 100)):
     """ This function contains all the things to execute during step3.
     :param info_level: sets the quantity of intermediate plots and info that will be shown (0 is lesser)
     :param residual_thresholds_: the thresholds to apply for each iteration of the residual method
@@ -177,7 +177,7 @@ def step3(video_path_, info_level=3, interval_to_analyze_=(0, None), residual_th
 
     # plot the residual error
     if info_level >= 3:
-        residuals = [abs(ct - results[COMPUTED_CLOCK_TIMES][i]) for i, ct in enumerate(clock_times)]
+        residuals = [abs(ct - (fit[0]*filtered_timestamps[i] + fit[1])) for i, ct in enumerate(clock_times)]
         plt.plot(filtered_timestamps, residuals, label=f"residuals", color="b")
         plt.xlim(min(all_timestamps) * 0.9, max(all_timestamps) * 1.1)
         plt.ylim(0, max(residuals) * 1.1)

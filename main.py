@@ -88,8 +88,10 @@ if __name__=="__main__":
 
         print("### ACTION : please delete any unwanted frame in the explorer now ...")
         input("### ACTION : press enter when it is done")
+
     else:
         print("### [i] skipping step 1")
+
     video_paths = [".".join(video_path.split(".")[:-1]) for video_path in video_paths]
 
     print()
