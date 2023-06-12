@@ -201,13 +201,14 @@ def step4(video_paths_, results_save_path_=None, save_=True, info_level_=2):
         plt.show()
 
     # save the timestamps
-    with open(f"{results_save_path_}/__times.csv", 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile, delimiter=',',
-                            quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(["image_index", "average_time"] + [f"video_{i}_time" for i in range(n_videos_)])
-        for i in range(len(average_times)):
-            writer.writerow([i, average_times[i]] + [real_times[ii][i] for ii in range(n_videos_)])
-    print("[step4][i] finished saving times")
+    if save_:
+        with open(f"{results_save_path_}/__times.csv", 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter=',',
+                                quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(["image_index", "average_time"] + [f"video_{i}_time" for i in range(n_videos_)])
+            for i in range(len(average_times)):
+                writer.writerow([i, average_times[i]] + [real_times[ii][i] for ii in range(n_videos_)])
+        print("[step4][i] finished saving times")
 
     return True
 
@@ -215,11 +216,11 @@ def step4(video_paths_, results_save_path_=None, save_=True, info_level_=2):
 if __name__=="__main__":
 
     info_level = 2
-    save = False
+    save = True
 
     # choose the paths of the folders containing the frames to couple
     try:
-        n_videos = int(input("[c] how many frame folders to couple ? "))
+        n_videos = int(input("[step4][c] how many frame folders to couple ? "))
         assert n_videos >= 2
     except ValueError:
         raise ValueError("you did not enter a valid number of videos")
@@ -227,10 +228,14 @@ if __name__=="__main__":
         raise ValueError("the number of videos should be an integer greater than 1")
 
     if save:
+        print("[step4][c] choose the results saving path")
         results_save_path = askdirectory()
+        if results_save_path == "":
+            raise ValueError("you did not select a results folder")
     else:
         results_save_path = None
 
+    print("[step4][c] choose the folder frames paths")
     video_paths = [askdirectory() for _ in range(n_videos)]
     if "" in video_paths:
         raise ValueError("you did not select all the folders")

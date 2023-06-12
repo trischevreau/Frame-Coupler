@@ -181,13 +181,13 @@ def step2(video_path_, info_level=2, repeat_frame=1):
 if __name__=="__main__":
 
     # setting the folder to process
-    print("[step2][c] choose a folder containing the raw ocr data")
+    print("[c] choose a folder containing the raw ocr data")
     video_path = askdirectory()
     if video_path == "":
         raise ValueError("no folder selected")
 
     # setting the number of ignored frames
-    print("[step2][c] choose between how many frames we should perform OCR \n"
+    print("[c] choose between how many frames we should perform OCR \n"
           "(1 means every frame, 2 means every other frame, etc.) ")
     repeat_frame = askinteger("Enter a number",
                               "Between how many frames should we perform OCR ? \n"

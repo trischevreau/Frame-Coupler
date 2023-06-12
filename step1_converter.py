@@ -58,17 +58,16 @@ def step1_conversion(file_name, folder_name, callback=lambda r: None):
 
 if __name__=="__main__":
 
-    print("### converter")
-    print()
-
+    print("[step1] choose the path of the video")
     video_path = askopenfilename(filetypes=[("MPEG4 File", "*.mp4")])
     if video_path == "":
         raise ValueError("you did not enter a filepath")
+    print()
 
     print()
-    print("beginning conversion ...")
+    print("[step1] beginning conversion ...")
     print()
 
     step1_conversion(video_path, ".".join(video_path.split(".")[:-1]), callback=progress_bar)
-    print(f"> {video_path} was converted to jpg grayscales")
+    print(f"[step1] > {video_path} was converted to jpg grayscales")
     print()
