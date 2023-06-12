@@ -15,13 +15,6 @@ from step4_framecoupler import step4
 
 if __name__=="__main__":
 
-    """
-    0 : bare minimum (load status, warnings, errors, ...) - command line only
-    1 : + progress info, some results - command line only
-    2 : + last fitting, common time frame, coupling quality vs quantity, coupled frames and variance of the coupling
-    3 : + intermediate fittings, last residual error of fitting
-    """
-
     print()
     print("### VIDEO FRAME COUPLER")
     print()
