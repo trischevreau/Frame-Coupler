@@ -224,3 +224,5 @@ if __name__=="__main__":
         raise ValueError("no folder selected")
 
     step3(video_path, plot, interval_to_analyze, residual_thresholds)
+
+    print("[step3] OK")

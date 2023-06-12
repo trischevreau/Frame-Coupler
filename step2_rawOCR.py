@@ -14,6 +14,7 @@ Output :
 
 import os
 from tkinter.filedialog import askdirectory
+from tkinter.simpledialog import askinteger
 import pickle
 from math import sqrt
 import tkinter as tk
@@ -179,12 +180,19 @@ def step2(video_path_, info_level=2, repeat_frame=1):
 
 if __name__=="__main__":
 
-    repeat_frame = 20
-
     # setting the folder to process
     print("[step2][c] choose a folder containing the raw ocr data")
     video_path = askdirectory()
     if video_path == "":
         raise ValueError("no folder selected")
 
-    step2(video_path)
+    # setting the number of ignored frames
+    print("[step2][c] choose between how many frames we should perform OCR \n"
+          "(1 means every frame, 2 means every other frame, etc.) ")
+    repeat_frame = askinteger("Enter a number",
+                              "Between how many frames should we perform OCR ? \n"
+                              "(1 means every frame, 2 means every other frame, etc.) ")
+    if repeat_frame is None or repeat_frame <= 1:
+        raise ValueError("you did not enter a correct value")
+
+    step2(video_path, repeat_frame=repeat_frame)

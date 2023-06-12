@@ -12,6 +12,7 @@ Output :
 
 import os
 import cv2
+from tkinter.filedialog import askopenfilename
 
 
 def progress_bar(percent, length=20):
@@ -60,11 +61,9 @@ if __name__=="__main__":
     print("### converter")
     print()
 
-    video_path = input("Input the path of the video : ")
-    if not os.path.isfile(video_path):
-        raise ValueError("you did not enter valid filepath")
-    if not video_path.split(".")[-1] == "mp4":
-        raise ValueError("not a .mp4 file")
+    video_path = askopenfilename(filetypes=[("MPEG4 File", "*.mp4")])
+    if video_path == "":
+        raise ValueError("you did not enter a filepath")
 
     print()
     print("beginning conversion ...")
