@@ -148,7 +148,7 @@ def step4(video_paths_, results_save_path_=None, save_=True, info_level_=2):
     # choose a threshold
     try:
         print()
-        chosen_threshold = float(input("[step3][c] choose a threshold for the frame coupling (ms) : "))
+        chosen_threshold = float(input("[step4][c] choose a threshold for the frame coupling (ms) : "))
         print()
         assert chosen_threshold >= 0
     except ValueError:
