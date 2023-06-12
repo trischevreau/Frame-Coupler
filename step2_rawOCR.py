@@ -192,7 +192,7 @@ if __name__=="__main__":
     repeat_frame = askinteger("Enter a number",
                               "Between how many frames should we perform OCR ? \n"
                               "(1 means every frame, 2 means every other frame, etc.) ")
-    if repeat_frame is None or repeat_frame <= 1:
+    if repeat_frame is None or repeat_frame < 1:
         raise ValueError("you did not enter a correct value")
 
     step2(video_path, repeat_frame=repeat_frame)
