@@ -51,7 +51,6 @@ if __name__=="__main__":
             raise ValueError("not a .mp4 file")
         print(f"### [i] video {i} is {video_paths[-1]}")
 
-
     res_path = input("### [c] where do you want to output the results (absolute path) ? ")
     try:
         os.makedirs(res_path)
@@ -78,8 +77,7 @@ if __name__=="__main__":
             step1_conversion(video_path, ".".join(video_path.split(".")[:-1]), callback=progress_bar)
             print(f"> {video_path} was converted to jpg gray frames")
 
-
-        print("### ACTION : please delete any unwanted frame in the explorer now ...")
+        print("### ACTION : please delete any unwanted frame in the file explorer now ...")
         input("### ACTION : press enter when it is done")
 
     else:

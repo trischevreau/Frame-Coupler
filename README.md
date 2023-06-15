@@ -55,7 +55,8 @@ The process is divided into 4 steps. These steps can be executed independently u
 
 - step 1 : the MPEG-4 (.mp4) video is converted into gray JPEG (.jpg) frames. The name of the individual images is the timestamps of them.
   - .png would probably be better than .jpg, however _tesseract_ seems to prefer .jpg files.
-
+  - each extractable frame is saved.
+  
 - step 2 : OCR (Optical Character Recognition) is performed on some of theses frames. The user chooses a zone were we should find the digital clock. The _tesseract_ API _pytesseract_ is then used to try and read this clock. The raw results of this process are saved in a _python pickle_ file in the folder of the frames.
 - step 3 : The raw results of the preceding step are processed to clean OCR errors and get a date in milliseconds (for example, 00:01:3@:I33 is transformed to 00:01:30:133 and then transformed to 90133 milliseconds). This milliseconds readings are then used to fit a linear curve using the timestamps of the frames. After this step, we have associated a date in milliseconds to every frame using their (even those were we couldn't read the digital clock). The results of this process are saved in another _python pickle_ file in the folder of the frames.
 - step 4 : This last step can be done when steps 1 to 3 were done to at least 2 videos. During this last steps, the dates in milliseconds associated to every frames are read to find common frames between the two videos. A frame is deemed 'common' to both videos when the difference of their dates is under a certain threshold. The results of this process is the coupled frames in different folders and a .csv file containing the dates.
@@ -66,7 +67,7 @@ The program was tested and coded using _python 3.10_. Any equal or superior vers
 
 You can use 'verify_librairies.py' to see which imports are missing and if your install went well.
 
-You should install _Tesseract-OCR_ from _Google_ as a program (https://github.com/tesseract-ocr) to use the _pytesseract_ library. You should then find the executable file of _Tesseract_, and copy its path to the variable 'pytesseract_exe_file_path' in the 'run_parameters.py' file.
+You should install _Tesseract-OCR_ from _Google_ as a program (https://github.com/tesseract-ocr) to use the _pytesseract_ library. You can find setup programs here : https://tesseract-ocr.github.io/tessdoc/Installation.html. You should then find the executable file of _Tesseract_ (generally found at 'C:\Program Files\Tesseract-OCR\tesseract.exe') and copy its path to the variable 'pytesseract_exe_file_path' in the 'run_parameters.py' file.
 
 Third-Party _python_ librairies that you also need to install : 
 
@@ -83,7 +84,9 @@ The file 'run_parameters.py' contains variables that you should change to match 
 - 'info_level' : How much the user should be informed of the inner workings of the programs during runtime.
 - 'save' : Should the coupled images be saved to a separate folder.
 
-The program can be used in two ways :
+A more complete description of these values can be found directly as comments in the 'run_parameters.py' file.
+
+The program can be used in two ways, depending on which file is the ran as the main file.
 
 - Using 'main.py' to do all the steps at once (easier to use but fallible) ; you just need to follow the prompts of the program. This is meant to be almost entirely command-line (except choosing the cropping for the OCR).
 - Using each step individually to control more the results. Using these individual steps, there is more dialogs and user interfaces. You can also go back easily when you are not happy with the results of one of the steps.
