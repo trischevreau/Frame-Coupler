@@ -39,7 +39,7 @@ def move_and_rename_images(root_folder_):
                     extension = os.path.splitext(file_name)[1]
                     new_file_name = ".".join(file_name.split(".")[:-1]) + "_" + folder_name + extension
                     new_file_path = os.path.join(root_folder_, new_file_name)
-                    shutil.copy(file_path, new_file_path)
+                    shutil.move(file_path, new_file_path)
 
 
 root_folder = input("select a folder to flatten : ")
