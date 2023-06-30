@@ -18,6 +18,10 @@ These videos should be MPEG-4 files, which will be converted to gray JPEG frames
 
 The digital clock is supposed to be of this model : https://www.youtube.com/watch?v=rf2Lmfqi5ZM
 
+## Releases
+
+You can find executable files generated with cx_Freeze in the 'releases' tab.
+
 ## Work flow
 
 Here is a flowchart to understand how it works :
