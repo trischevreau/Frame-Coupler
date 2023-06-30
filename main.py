@@ -31,25 +31,32 @@ if __name__=="__main__":
         raise ValueError("you did not enter a valid number of videos")
     except AssertionError:
         raise ValueError("the number of videos should be an integer greater than 1")
-
-    try:
-        repeat_frame = int(input("### [c] between how many frames should we perform OCR ? "
-                                 "(1 means every frame, 2 means every other frame, etc.) "))
-        assert repeat_frame > 0
-    except ValueError:
-        raise ValueError("you did not enter a valid number of frames")
-    except AssertionError:
-        raise ValueError("the number of frames should be an integer greater than 0")
+    print()
 
     print("### [c] select the filepath of the videos")
     video_paths = []
     for i in range(n_videos):
-        video_paths.append(input(f"### [c] input the absolute filepath of video {i+1} : "))
+        video_paths.append(input(f"### [c] input the absolute filepath of video {i + 1} : "))
         if not os.path.isfile(video_paths[-1]):
             raise ValueError("you did not enter valid filepath")
         if not video_paths[-1].split(".")[-1] == "mp4":
             raise ValueError("not a .mp4 file")
-        print(f"### [i] video {i} is {video_paths[-1]}")
+        print(f"### [i] video {i + 1} is {video_paths[-1]}")
+    print()
+
+    print("### [c] select the quality of the OCR for the videos")
+    repeat_frames = []
+    for video_i in range(n_videos):
+        try:
+            repeat_frame = int(input(f"### [c] video {video_i + 1} : between how many frames should we perform OCR ? "
+                                     "(1 means every frame, 2 means every other frame, etc.) "))
+            assert repeat_frame > 0
+            repeat_frames.append(repeat_frame)
+        except ValueError:
+            raise ValueError("you did not enter a valid number of frames")
+        except AssertionError:
+            raise ValueError("the number of frames should be an integer greater than 0")
+    print()
 
     res_path = input("### [c] where do you want to output the results (absolute path) ? ")
     try:
@@ -89,8 +96,8 @@ if __name__=="__main__":
     print("### STEP 2 : raw OCR")
     print()
 
-    for video_path in video_paths:
-        step2(video_path, info_level=info_level, repeat_frame=repeat_frame)
+    for i, video_path in enumerate(video_paths):
+        step2(video_path, info_level=info_level, repeat_frame=repeat_frames[i])
         print(f"[step2] finished OCR on {video_path}")
         print()
 
