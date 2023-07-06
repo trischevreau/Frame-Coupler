@@ -94,3 +94,16 @@ The program can be used in two ways, depending on which file is the ran as the m
 
 - Using 'main.py' to do all the steps at once (easier to use but fallible) ; you just need to follow the prompts of the program. This is meant to be almost entirely command-line (except choosing the cropping for the OCR).
 - Using each step individually to control more the results. Using these individual steps, there is more dialogs and user interfaces. You can also go back easily when you are not happy with the results of one of the steps.
+
+## License
+
+Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
