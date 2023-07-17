@@ -57,7 +57,7 @@ graph LR
 
 The process is divided into 4 steps. These steps can be executed independently using their own python files, or the full process can be executed in one shot using the _main.py_ file.
 
-- step 1 : the MPEG-4 (.mp4) video is converted into gray JPEG (.jpg) frames. The name of the individual images is the timestamps of them.
+- step 1 : the MPEG-4 (.mp4) video is converted into gray JPEG (.jpg) frames and a pickle file containing the timestamps of each frame.
   - .png would probably be better than .jpg, however _tesseract_ seems to prefer .jpg files.
   - each extractable frame is saved.
   

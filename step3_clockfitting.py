@@ -4,12 +4,12 @@
 Processes the raw OCR data to try and fit a model on the usable clock times.
 
 Input :
-- a folder path (the folder must contain the raw OCR results from step2)
+- a folder path (the folder must contain the raw OCR results from step2 and the timestamps from step1)
 
 Output :
 - a file named "__clock_fitting" at the root of the folder path, which is the pickle of a dict of this form :
   > {TIMESTAMPS: the timestamps of the video (even those not used for fitting).
-     COMPUTED_CLOCK_TIMES: all estimated clock times (this means, the fitting function applied to the timestamps).}
+     COMPUTED_CLOCK_TIMES: all estimated clock times (this means, the fitting function applied to the timestamps).
 """
 
 import os
@@ -88,7 +88,7 @@ def step3(video_path_, info_level=3, interval_to_analyze_=(0, None), residual_th
     timestamps = []  # arbitrary time units
     filtered_timestamps = []  # arbitrary time units
 
-    # load the results
+    # load the OCR results
     with open(video_path_ + raw_OCR_results_filename, "rb") as f:
         results = pickle.load(f)
     if info_level >= 1:
@@ -97,6 +97,12 @@ def step3(video_path_, info_level=3, interval_to_analyze_=(0, None), residual_th
     if M is None:
         M = len(results.keys())
     number_of_frames = M - m
+
+    # load the timestamps
+    with open(video_path_ + timestamps_filename, "rb") as f:
+        loaded_timestamps = pickle.load(f)
+    if info_level >= 1:
+        print(f"[step3][i] timestamps loaded from {video_path_}")
 
     # process the raw OCR results to usable milliseconds clock times
     n_letters = len(str(number_of_frames))
@@ -107,7 +113,7 @@ def step3(video_path_, info_level=3, interval_to_analyze_=(0, None), residual_th
         if info_level >= 1:
             print(f"[step3][i][{str(i+1).zfill(n_letters)}/{number_of_frames}] {frame_str} becomes {frame_ms} ms")
         clock_times.append(frame_ms)
-        timestamps.append(float(file_.replace(".jpg", "").replace("_", ".")))
+        timestamps.append(loaded_timestamps[file_])
     print(f"[step3][i] computed {len(clock_times)} values.")
     filtered_timestamps = list(timestamps)
 
@@ -116,7 +122,7 @@ def step3(video_path_, info_level=3, interval_to_analyze_=(0, None), residual_th
     print(f"[step3][w] {cleanup_values(mask)} values were unreadable")
 
     # get rid of times that are obviously too high
-    mask = [False if v <= np.quantile(clock_times, 0.7) * 2 else True for v in clock_times]
+    mask = [False if v <= np.quantile(clock_times, 0.6) * 2 else True for v in clock_times]
     print(f"[step3][w] {cleanup_values(mask)} values were obviously too high")
 
     print(f"[step3][w] there is {len(filtered_timestamps)} values left")
@@ -153,9 +159,7 @@ def step3(video_path_, info_level=3, interval_to_analyze_=(0, None), residual_th
         fit = np.polyfit(filtered_timestamps, clock_times, 1)
 
     # get a list of all possible timestamps from a folder containing video frames
-    all_timestamps = list(sorted(
-        [float(k.replace(".jpg", "").replace("_", ".")) for k in os.listdir(video_path_) if k.endswith(".jpg")]
-    ))
+    all_timestamps = list(sorted([loaded_timestamps[key] for key in os.listdir(video_path_) if key.endswith(".jpg")]))
 
     results = {
         COMPUTED_CLOCK_TIMES: [fit[0]*ts + fit[1] for ts in all_timestamps],
@@ -213,9 +217,9 @@ if __name__=="__main__":
     filtered_timestamps = []
 
     # user-adjustable values
-    plot = 2  # sets the quantity of intermediate plots that will be shown (0 is lesser)
+    plot = 3  # sets the quantity of intermediate plots that will be shown (0 is lesser)
     interval_to_analyze = (0, None)  # frames
-    residual_thresholds = (500, 100, 50)
+    residual_thresholds = (5000, 500, 100, 50)
 
     # setting the folder to process
     print("[step3][c] choose a folder containing the raw ocr data")

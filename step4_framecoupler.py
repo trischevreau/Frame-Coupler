@@ -4,7 +4,7 @@
 Uses the fitting and timestamps to find common images from a set of videos
 
 Input :
-- multiple paths to folders containing the results of step3
+- multiple paths to folders containing the results of step3 and step1
 
 Output :
 - the coupled images in a folder
@@ -170,6 +170,15 @@ def step4(video_paths_, results_save_path_=None, save_=True, info_level_=2):
                 pass
         print(f"[step4][i] created saving folders")
 
+    # load the filenames (reverse dict of the timestamps from step1)
+    loaded_filenames = {}
+    for video_path_ in video_paths_:
+        with open(video_path_ + timestamps_filename, "rb") as f:
+            res = pickle.load(f)
+            loaded_filenames[video_path_] = {v: k for k, v in res.items()}  # reverse dict
+        if info_level >= 1:
+            print(f"[step3][i] filenames loaded from {video_path_} (reversed timestamps)")
+
     # iterate through the correct indexes
     n_found = len(correct_indexes)
     for i_found, coupled_frames_index in enumerate(correct_indexes):
@@ -180,9 +189,10 @@ def step4(video_paths_, results_save_path_=None, save_=True, info_level_=2):
             if info_level_ >= 1:
                 print(f"[step4][i][{i_found + 1}/{n_found}] saving frame at t = {average_times[-1]} ms")
                 for i in range(n_videos_):
+                    ts = timestamps[i][coupled_frames_index[i]]
                     shutil.copyfile(
-                        video_paths_[i] + f"/{str(timestamps[i][coupled_frames_index[i]]).replace('.', '_')}.jpg",
-                        f"{results_save_path_}/{i + 1}/{str(len(average_times)).zfill(5)}.jpg"
+                        video_paths_[i] + f"/{loaded_filenames[video_paths_[i]][ts]}",
+                        f"{results_save_path_}/{i + 1}_{str(len(average_times)).zfill(8)}.jpg"
                     )
 
     # info on the found series
@@ -200,7 +210,7 @@ def step4(video_paths_, results_save_path_=None, save_=True, info_level_=2):
         plt.ylabel("variance of the coupling (ms)")
         plt.show()
 
-    # save the timestamps
+    # save the timestamps of the coupled frames
     if save_:
         with open(f"{results_save_path_}/__times.csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=',',

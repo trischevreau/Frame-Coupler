@@ -18,23 +18,24 @@ from PIL import Image, ImageTk
 
 class Interface:
 
-    def __init__(self, folder_paths, canvas_size = (200, 150)):
+    def __init__(self, folder_path, canvas_size = (200, 150)):
         self.root = tk.Tk()
         self.root.protocol("WM_DELETE_WINDOW", self.__close_window)
-        self.displayed_image = [None for _ in range(len(folder_paths))]
         self.frame_nr = 1
         # video visualization
         self.canvas = []
-        self.all_image_files = [[] for _ in range(len(folder_paths))]
-        for i, folder_path in enumerate(folder_paths):
+        all_image_files_unsorted = [file for file in os.listdir(folder_path) if file.endswith(".jpg")]
+        self.n_videos = max([int(filename.split("_")[0]) for filename in all_image_files_unsorted])
+        self.all_image_files = [[] for _ in range(self.n_videos)]
+        for i in range(self.n_videos):
             self.canvas.append(tk.Canvas(self.root, width=canvas_size[0], height=canvas_size[1], bg="gray"))
             self.canvas[i].pack(fill=tk.BOTH, expand=True, side=tk.RIGHT)
             self.canvas[i].bind('<Configure>', self.__canvas_resized)
-            for file_ in os.listdir(folder_path):
-                if file_.endswith(".jpg"):
-                    self.all_image_files[i].append(Image.open(folder_path + "/" + file_))
+        for image_file in all_image_files_unsorted:
+            self.all_image_files[int(image_file.split("_")[0])-1].append(Image.open(folder_path + "/" + image_file))
         assert all(len(self.all_image_files[i]) == len(self.all_image_files[i+1])
                    for i in range(len(self.all_image_files)-1))
+        self.displayed_image = [None for _ in range(self.n_videos)]
         self.parameters_frame = ttk.Frame(self.root)
         ttk.Button(self.parameters_frame, text="play", command=self.__disp_frames).pack(
             fill=tk.BOTH, expand=True, side=tk.LEFT)
@@ -80,5 +81,5 @@ class Interface:
 if __name__=="__main__":
     path = askdirectory()
     if path != "":
-        interface = Interface([path + "/" + e for e in os.listdir(path) if e[0:2] != "__"])
+        interface = Interface(path)
         interface.mainloop()

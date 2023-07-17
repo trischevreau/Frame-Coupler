@@ -7,6 +7,8 @@ Uses the separate steps to make all of them.
 import os
 
 from run_parameters import *
+from data.constants import timestamps_filename
+
 from step1_converter import step1_conversion, progress_bar
 from step2_rawOCR import step2
 from step3_clockfitting import step3
@@ -73,7 +75,10 @@ if __name__=="__main__":
 
     answer = "n"
     if all([os.path.isdir(".".join(video_path.split(".")[:-1])) for video_path in video_paths]):
-        answer = input("### [c] it seems like the videos were already converted to gray frames, is it correct ? (Y/n) ")
+        if all([os.path.isfile(".".join(video_path.split(".")[:-1])+timestamps_filename)
+                for video_path in video_paths]):
+            answer = input("### [c] it seems like the videos were already converted to gray frames and timestamps,"
+                           " is it correct ? (Y/n) ")
 
     if answer.lower() == "n":
 

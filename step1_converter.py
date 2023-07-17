@@ -7,12 +7,16 @@ Input :
 - mp4 video
 
 Output :
-- a jpg grayscale for each frame, usable for OCR, whose name is its timestamp.
+- a jpg grayscale for each frame, usable for OCR, whose name is its frame number.
+- a pickle file linking the image file name to the timestamp.
 """
 
 import os
 import cv2
+import pickle
 from tkinter.filedialog import askopenfilename
+
+from data.constants import timestamps_filename
 
 
 def progress_bar(percent, length=20):
@@ -42,18 +46,22 @@ def step1_conversion(file_name, folder_name, callback=lambda r: None):
     cap = cv2.VideoCapture(file_name)
     video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
     count = 0
+    timestamps = {}
     # read it until the end
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:  # if the frame was not kept ...
             continue  # ... ignore it
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        timestamp = cap.get(cv2.CAP_PROP_POS_MSEC)
-        cv2.imwrite(folder_name + "/" + str(timestamp).replace('.', '_') + ".jpg", gray)
+        timestamps[f"{count:08d}.jpg"] = cap.get(cv2.CAP_PROP_POS_MSEC)/1000
+        cv2.imwrite(folder_name + "/" + f"{count:08d}" + ".jpg", gray)
         count += 1
         if count > (video_length - 1):  # if we read all the frames ...
             cap.release()  # ... close the video
         callback(count / video_length * 100)
+    # save the timestamps
+    with open(folder_name + timestamps_filename, "wb") as f:
+        pickle.dump(timestamps, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 if __name__=="__main__":
@@ -69,5 +77,5 @@ if __name__=="__main__":
     print()
 
     step1_conversion(video_path, ".".join(video_path.split(".")[:-1]), callback=progress_bar)
-    print(f"[step1] > {video_path} was converted to jpg grayscales")
+    print(f"[step1] > {video_path} was converted to jpg grayscales and timestamps pickle")
     print()
