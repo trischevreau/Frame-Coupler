@@ -1,0 +1,120 @@
+(Outdated)
+
+C:\Users\trist\AppData\Local\Programs\Python\Python310\python.exe "C:\Users\trist\Mon Drive\Scol\Polito\Frame Coupler\main.py" 
+
+### VIDEO FRAME COUPLER
+
+### running parameters (can be changed in the run_parameters.py file) :
+### user info level = 3/3 ; save = True
+### Tesseract EXE filepath C:\Program Files\Tesseract-OCR\tesseract.exe
+
+### [c] how many videos to couple ? 2
+### [c] between how many frames should we perform OCR ? (1 means every frame, 2 means every other frame, etc.) 27
+### [c] select the filepath of the videos
+### [c] input the absolute filepath of video 1 : c:/images_dic/c2/1.mp4
+### [i] video 0 is c:/images_dic/c2/1.mp4
+### [c] input the absolute filepath of video 2 : c:/images_dic/c2/2.mp4
+### [i] video 1 is c:/images_dic/c2/2.mp4
+### [c] where do you want to output the results (absolute path) ? c:/images_dic/c2/res
+### [i] results folder is c:/images_dic/c2/res
+
+### STEP 1 : Conversion to frames
+
+### [c] it seems like the videos were already converted to gray frames, is it correct ? (Y/n) 
+### [i] skipping step 1
+
+### STEP 2 : raw OCR
+
+[step2][i] beginning OCR of frames from folder c:/images_dic/c2/1
+[step2][i] choose a crop frame (see opened window)
+[step2][i][0001/3876] found 00:00:03.036 in 0_0.jpg
+[step2][i][0028/3876] found 00:00:03.253 in 900_0.jpg
+(...)
+[step2][i][3835/3876] found 00:00:34.984 in 127800_00000000001.jpg
+[step2][i][3862/3876] found 00:00:35.201 in 128700_00000000001.jpg
+[step2][w] file /__raw_OCR_results already exists, it will be removed and replaced
+[step2] finished OCR on c:/images_dic/c2/1
+
+[step2][i] beginning OCR of frames from folder c:/images_dic/c2/2
+[step2][i] choose a crop frame (see opened window)
+[step2][i][0001/7308] found 00:00:03.720 in 0_0.jpg
+[step2][i][0028/7308] found 00:00:03.870 in 899_6444444444445.jpg
+(...)
+[step2][i][7264/7308] found | 00:00:34,008 in 242003_2.jpg
+[step2][i][7291/7308] found | 00:00:34-1 47 in 242902_7777777778.jpg
+[step2][w] file /__raw_OCR_results already exists, it will be removed and replaced
+[step2] finished OCR on c:/images_dic/c2/2
+
+
+### STEP 3 : clock fitting
+
+[step3][i] raw OCR results loaded from c:/images_dic/c2/1
+[step3][i][001/144] 00:00:03.036 becomes 3036 ms
+[step3][i][002/144] 00:00:03.253 becomes 3253 ms
+(...)
+[step3][i][143/144] 00:00:34.984 becomes 34984 ms
+[step3][i][144/144] 00:00:35.201 becomes 35201 ms
+[step3][i] computed 144 values.
+[step3][w] 13 values were unreadable
+[step3][w] 1 values were obviously too high
+[step3][w] there is 130 values left
+[step3][w] 0 values were discarded on iter 1 with threshold 2000
+[step3][w] there is 130 values left
+[step3][w] 0 values were discarded on iter 2 with threshold 500
+[step3][w] there is 130 values left
+[step3][w] 0 values were discarded on iter 3 with threshold 100
+[step3][w] there is 130 values left
+[step3][r] average sampling frequency : 4.445386809763284 Hz with sigma 6.026098258984974e-14 Hz
+[step3][i] 90.27777777777777 % of the frames with OCR results where deemed appropriate for fitting
+[step3][i] 3.353973168214654 % of the total of frames where deemed appropriate for fitting
+[step3][w] file /__clock_fitting already exists, it will be removed and replaced
+[step3] finished clock fitting on c:/images_dic/c2/1
+
+[step3][i] raw OCR results loaded from c:/images_dic/c2/2
+[step3][i][001/271] 00:00:03.720 becomes 3720 ms
+[step3][i][002/271] 00:00:03.870 becomes 3870 ms
+(...)
+[step3][i][270/271] | 00:00:34,008 becomes 34008 ms
+[step3][i][271/271] | 00:00:34-1 47 becomes 34147 ms
+[step3][i] computed 271 values.
+[step3][w] 54 values were unreadable
+[step3][w] 21 values were obviously too high
+[step3][w] there is 196 values left
+[step3][w] 72 values were discarded on iter 1 with threshold 2000
+[step3][w] there is 124 values left
+[step3][w] 4 values were discarded on iter 2 with threshold 500
+[step3][w] there is 120 values left
+[step3][w] 3 values were discarded on iter 3 with threshold 100
+[step3][w] there is 117 values left
+[step3][r] average sampling frequency : 8.892914867319062 Hz with sigma 0.0005640822479941742 Hz
+[step3][i] 43.17343173431734 % of the frames with OCR results where deemed appropriate for fitting
+[step3][i] 1.6009852216748768 % of the total of frames where deemed appropriate for fitting
+[step3][w] file /__clock_fitting already exists, it will be removed and replaced
+[step3] finished clock fitting on c:/images_dic/c2/2
+
+
+### STEP 4 : frame coupling
+
+[step4][i] clock fitting results loaded
+[step4][i] there is 30432.053433018973 ms in common starting from 3765.755422954779 ms
+[step4][i][1/100] with threshold 0.01, found 10 common frames
+[step4][i][2/100] with threshold 0.011497569953977356, found 11 common frames
+(...)
+[step4][i][99/100] with threshold 8697.490026177835, found 10960 common frames
+[step4][i][100/100] with threshold 10000.0, found 10960 common frames
+
+[step4][c] choose a threshold for the frame coupling (ms) : 1
+
+[step4][i] created saving folders
+[step4][i][1/1496] saving frame at t = 3770.408171449431 ms
+[step4][i][2/1496] saving frame at t = 3778.7410965641216 ms
+(...)
+[step4][i][1495/1496] saving frame at t = 34189.462444182485 ms
+[step4][i][1496/1496] saving frame at t = 34197.79606370506 ms
+[step4][i] with threshold 1.0, found 1496 common frames
+[step4][i] this represents :
+[step4][i] 38.59649122807018 % of the frames from video 1
+[step4][i] 20.47071702244116 % of the frames from video 2
+[step4][i] finished saving times
+
+### DONE
