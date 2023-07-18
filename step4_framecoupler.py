@@ -161,22 +161,13 @@ def step4(video_paths_, results_save_path_=None, save_=True, info_level_=2):
     real_times = [[] for _ in range(n_videos_)]
     correct_indexes = get_common_times(computed_times, chosen_threshold, min_common_time, max_common_time)
 
-    # create saving folders
-    if save_:
-        for i in range(n_videos_):
-            try:
-                os.mkdir(results_save_path_ + "/" + str(i + 1))
-            except FileExistsError:
-                pass
-        print(f"[step4][i] created saving folders")
-
     # load the filenames (reverse dict of the timestamps from step1)
     loaded_filenames = {}
     for video_path_ in video_paths_:
         with open(video_path_ + timestamps_filename, "rb") as f:
             res = pickle.load(f)
             loaded_filenames[video_path_] = {v: k for k, v in res.items()}  # reverse dict
-        if info_level >= 1:
+        if info_level_ >= 1:
             print(f"[step3][i] filenames loaded from {video_path_} (reversed timestamps)")
 
     # iterate through the correct indexes

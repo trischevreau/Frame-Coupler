@@ -53,7 +53,7 @@ def step1_conversion(file_name, folder_name, callback=lambda r: None):
         if not ret:  # if the frame was not kept ...
             continue  # ... ignore it
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        timestamps[f"{count:08d}.jpg"] = cap.get(cv2.CAP_PROP_POS_MSEC)/1000
+        timestamps[f"{count:08d}.jpg"] = cap.get(cv2.CAP_PROP_POS_MSEC)
         cv2.imwrite(folder_name + "/" + f"{count:08d}" + ".jpg", gray)
         count += 1
         if count > (video_length - 1):  # if we read all the frames ...
