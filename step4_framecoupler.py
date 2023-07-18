@@ -183,7 +183,7 @@ def step4(video_paths_, results_save_path_=None, save_=True, info_level_=2):
                     ts = timestamps[i][coupled_frames_index[i]]
                     shutil.copyfile(
                         video_paths_[i] + f"/{loaded_filenames[video_paths_[i]][ts]}",
-                        f"{results_save_path_}/{i + 1}_{str(len(average_times)).zfill(8)}.jpg"
+                        f"{results_save_path_}/{str(len(average_times)).zfill(8)}_{i + 1}.jpg"
                     )
 
     # info on the found series
