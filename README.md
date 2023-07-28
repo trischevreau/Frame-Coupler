@@ -81,7 +81,7 @@ Third-Party _python_ librairies that you also need to install :
 - PIL (step1, step2)
 - pytesseract (step2)
 
-## How to run them program
+## How to run the program
 
 The file 'run_parameters.py' contains variables that you should change to match your needs and your installation of _pytesseract_, especially the _Tesseract_ executable path, but also :
 
